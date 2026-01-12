@@ -1,7 +1,9 @@
 # 🧭 PureNavi for Pebble
 
-https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi1.png
-https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi2.png
+![PureNavi Interface Preview 1](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi1.png)
+
+![PureNavi Interface Preview 1](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi2.png)
+
 
 **PureNavi** ist ein minimalistischer, hocheffizienter Luftlinien-Kompass für die gesamte Pebble-Familie. Anstatt dich mit komplexen Karten abzulenken, liefert PureNavi die purste Form der Navigation: Einen Pfeil und die Distanz zum Ziel.
 
