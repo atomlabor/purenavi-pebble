@@ -1,0 +1,38 @@
+{
+  "name": "navi_new",
+  "author": "atomlabor.de",
+  "version": "1.1.0",
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.3"
+  },
+  "pebble": {
+    "displayName": "PureNavi",
+    "uuid": "2aec2ede-ac92-4ad5-a80f-fd71e07bd5af",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": ["aplite", "basalt", "chalk", "diorite"],
+    "watchapp": { "watchface": false },
+    "capabilities": ["location", "configurable"],
+    "messageKeys": {
+      "id_dist": 0,
+      "id_button": 3,
+      "id_vibe": 4,
+      "id_bearing": 5,
+      "CONFIG_TARGET_NAME": 10,
+      "CONFIG_ADDRESS": 11,
+      "CONFIG_UNIT": 12,
+      "CONFIG_LANG": 13
+    },
+    "resources": {
+      "media": [
+        {
+          "file": "images/new-navi.png",
+          "menuIcon": true,
+          "name": "IMG_ICON",
+          "type": "bitmap"
+        }
+      ]
+    }
+  }
+}
