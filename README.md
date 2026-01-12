@@ -1,11 +1,11 @@
 # 🧭 PureNavi for Pebble
 
-![PureNavi Screenshot 1](images/purenavi1.png)
-![PureNavi Screenshot 2](images/purenavi2.png)
+![PureNavi Screenshot 1]([images/purenavi1.png](https://github.com/atomlabor/purenavi-pebble/blob/main/purenavi1.png))
+![PureNavi Screenshot 2]([images/purenavi2.png](https://github.com/atomlabor/purenavi-pebble/blob/main/purenavi2.png))
 
 **PureNavi** ist ein minimalistischer, hocheffizienter Luftlinien-Kompass für die gesamte Pebble-Familie. Anstatt dich mit komplexen Karten abzulenken, liefert PureNavi die purste Form der Navigation: Einen Pfeil und die Distanz zum Ziel.
 
-
+"As the crow flies"
 
 ---
 
@@ -43,6 +43,8 @@ Die App ist plattformübergreifend optimiert und läuft auf:
 ---
 
 ## 🇺🇸 English
+
+"As the crow flies"
 
 ### ⌚ Supported Hardware
 Optimized for the entire Pebble family:
