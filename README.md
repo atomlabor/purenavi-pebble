@@ -1,5 +1,8 @@
 # 🧭 PureNavi for Pebble
 
+![PureNavi Screenshot 1](images/purenavi1.png)
+![PureNavi Screenshot 2](images/purenavi2.png)
+
 **PureNavi** ist ein minimalistischer, hocheffizienter Luftlinien-Kompass für die gesamte Pebble-Familie. Anstatt dich mit komplexen Karten abzulenken, liefert PureNavi die purste Form der Navigation: Einen Pfeil und die Distanz zum Ziel.
 
 
