@@ -1,6 +1,7 @@
 # 🧭 PureNavi for Pebble (v2)
 
-![PureNavi Interface Header](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi.jpg)
+![PureNavi Header](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/main/purenavi.jpeg)
+
 
 ![PureNavi Interface Preview 1](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi1.png)
 
