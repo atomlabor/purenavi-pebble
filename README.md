@@ -1,4 +1,4 @@
-# 🧭 PureNavi for Pebble
+# 🧭 PureNavi for Pebble (v2)
 
 ![PureNavi Interface Preview 1](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi1.png)
 
