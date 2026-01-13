@@ -32,7 +32,7 @@ Die App ist plattformübergreifend optimiert und läuft auf:
 ### 🛠 Bedienung (Buttons)
 * **OBEN (S):** Tracking Start / Stopp.
 * **MITTE (I):** Display invertieren (Farben wechseln).
-* **UNTEN (L):** Hintergrundbeleuchtung (Licht) aktivieren.
+* **UNTEN (P):** Pin der aktuellen Position setzen (z.B. Auto wiederfinden).
 
 ### 🔧 Setup & Installation
 1. Installiere die `.pbw` Datei über die Pebble/Rebble App.
@@ -67,7 +67,7 @@ Optimized for the entire Pebble family:
 ### 🛠 Button Controls
 * **UP (S):** Start / Stop tracking.
 * **SELECT (I):** Invert display (Toggle Black/White).
-* **DOWN (L):** Activate Backlight (Light).
+*  **BELOW (P):** Set pin for current location (e.g. to find your car).
 
 ### 📖 Why "As the crow flies"?
 Real adventures often happen off the beaten path. PureNavi gives you the freedom to find your own way through the city or woods, as long as you know the direction of your target. It’s the digital equivalent of a reliable pocket compass combined with modern geocoding technology.
