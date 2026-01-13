@@ -16,13 +16,6 @@
 
 ## 🇩🇪 Deutsch
 
-### ⌚ Unterstützte Hardware
-Die App ist plattformübergreifend optimiert und läuft auf:
-* **Pebble Classic & Pebble Steel** (Aplite)
-* **Pebble Time & Time Steel** (Basalt)
-* **Pebble Time Round** (Chalk)
-* **Pebble 2 / SE** (Diorite)
-
 ### 🚀 Kern-Features
 * **📍 Universal Geocoding:** Keine mühsame Koordinaten-Eingabe. Gib einfach eine Adresse oder einen Ort (z. B. "Alexanderplatz, Berlin") in den Einstellungen ein.
 * **🌍 Bilingual & International:** Volle Unterstützung für **Deutsch** und **Englisch** sowie Umschaltung zwischen **Metrisch (km)** und **Imperial (mi)**.
@@ -51,12 +44,6 @@ Die App ist plattformübergreifend optimiert und läuft auf:
 
 "As the crow flies"
 
-### ⌚ Supported Hardware
-Optimized for the entire Pebble family:
-* **Pebble Classic & Pebble Steel** (Aplite)
-* **Pebble Time & Time Steel** (Basalt)
-* **Pebble Time Round** (Chalk)
-* **Pebble 2 / SE** (Diorite)
 
 ### 🚀 Key Features
 * **📍 Universal Geocoding:** No need for coordinates. Just enter an address or POI (e.g., "Empire State Building") in the settings.
