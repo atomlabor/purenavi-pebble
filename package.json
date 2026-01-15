@@ -5,10 +5,11 @@
   "type": "package",
   "pebble": {
     "displayName": "PureNavi v3",
-    "uuid": "1337beef-dead-4444-beef-133713371337",
+    "uuid": "2aec2ede-ac92-4ad5-a80f-fd71e07bd5af",
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": ["aplite", "basalt", "chalk", "diorite", "emery"],
+    "watchapp": { "watchface": false },
     "capabilities": ["location", "configurable"],
     "messageKeys": {
       "ID_DIST": 0,
