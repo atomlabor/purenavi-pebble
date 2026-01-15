@@ -2,145 +2,97 @@ var Clay = require('pebble-clay');
 var clayConfig = require('./ClaySettings');
 var clay = new Clay(clayConfig);
 
-var target = { name: "PureNavi", lat: 0, lon: 0 }; 
-var settings = { unit: 0, lang: 0 }; 
-var lastPos = null, manualPause = true;
-var watchId = null; 
+var target = { lat: 0, lon: 0, name: "Target" };
+var settings = { unit: 0 };
+var lastPos = null;
+var isPaused = true;
+var arrivedVibrated = false;
 
-var TXT = {
-  de: { search: "SUCHE...", gps: "GPS SUCHE...", pause: "PAUSE", arrived: "ZIEL\nERREICHT!", set: "ZIEL GESETZT:", err: "ADRESSE NICHT\nGEFUNDEN!", pin: "PIN GESETZT!" },
-  en: { search: "SEARCH...", gps: "GPS SEARCH...", pause: "PAUSED", arrived: "DESTINATION\nREACHED!", set: "TARGET SET:", err: "ADDRESS NOT\nFOUND!", pin: "PIN SET!" }
-};
-
-function getTxt(key) {
-  return (settings.lang === 1) ? TXT.en[key] : TXT.de[key];
-}
-
-// Aggressiver GPS-Watcher
-function startGpsWatcher() {
-  if (watchId) navigator.geolocation.clearWatch(watchId);
-  
-  watchId = navigator.geolocation.watchPosition(function(pos) {
-    handleLocationUpdate(pos);
-  }, function(err) {
-    console.log("GPS Error: " + err.code);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 1000,   // Erzwingt frische Daten vom Sensor
-    timeout: 15000      // Gibt dem Handy Zeit für den ersten Fix
-  });
-}
-
-function handleLocationUpdate(pos) {
-  var cur = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-  var speed = pos.coords.speed || 0;
-  var myHeading = (pos.coords.heading !== null && speed > 0.5) ? pos.coords.heading : (lastPos ? lastPos.heading : 0);
-  cur.heading = myHeading; lastPos = cur;
-
-  if (manualPause) return;
-
-  var dKM = calculateDistance(cur.lat, cur.lon, target.lat, target.lon);
-  var tBearing = calculateBearing(cur.lat, cur.lon, target.lat, target.lon);
-  var relBearing = (tBearing - myHeading + 360) % 360;
-
-  var dText = (settings.unit === 1) ? (dKM * 0.621371).toFixed(2) + " mi" : dKM.toFixed(2) + " km";
-  var distText = dText + "\n" + target.name;
-  if (dKM < 0.05) distText = getTxt('arrived');
-
-  var msg = { 'id_dist': distText, 'id_bearing': Math.round(relBearing) };
-  if (dKM < 0.05 && dKM > 0.00) msg.id_vibe = 1;
-  Pebble.sendAppMessage(msg);
-}
-
-function resolveAddress(address, label) {
-  var url = "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(address) + "&format=json&limit=1";
-  var req = new XMLHttpRequest();
-  req.open('GET', url, true);
-  req.onload = function() {
-    if (req.readyState === 4 && req.status === 200) {
-      try {
-        var json = JSON.parse(req.responseText);
-        if (json && json.length > 0) {
-          target.lat = parseFloat(json[0].lat);
-          target.lon = parseFloat(json[0].lon);
-          target.name = label; 
-          localStorage.setItem('cached_target', JSON.stringify(target));
-          Pebble.sendAppMessage({ 'id_dist': getTxt('set') + "\n" + target.name });
-        } else { Pebble.sendAppMessage({ 'id_dist': getTxt('err') }); }
-      } catch(e) { console.log("JSON Error"); }
-    }
-  };
-  req.send(null);
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  var R = 6371;
+  var dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+  var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
 }
 
 function calculateBearing(lat1, lon1, lat2, lon2) {
-  var dLon = (lon2 - lon1) * Math.PI / 180;
-  var y = Math.sin(dLon) * Math.cos(lat2 * Math.PI / 180);
-  var x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) - 
-          Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos(dLon);
+  var dLon = (lon2-lon1)*Math.PI/180;
+  var y = Math.sin(dLon) * Math.cos(lat2*Math.PI/180);
+  var x = Math.cos(lat1*Math.PI/180)*Math.sin(lat2*Math.PI/180) - Math.sin(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.cos(dLon);
   return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
 }
 
-function calculateDistance(lat1, lon1, lat2, lon2) { 
-  var R = 6371;
-  var dLat = (lat2 - lat1) * Math.PI / 180;
-  var dLon = (lon2 - lon1) * Math.PI / 180;
-  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
-}
+function updateWatch(forceText) {
+  if (forceText) { Pebble.sendAppMessage({ 'ID_DIST': String(forceText) }); return; }
+  if (!lastPos || target.lat === 0 || isPaused) return;
 
-function updateSettings(config) {
-  if (!config) return;
-  var l = config.CONFIG_LANG || config['13'];
-  var u = config.CONFIG_UNIT || config['12'];
-  settings.lang = (l && typeof l === 'object') ? parseInt(l.value) : parseInt(l || 0);
-  settings.unit = (u && typeof u === 'object') ? parseInt(u.value) : parseInt(u || 0);
-  var name = config.CONFIG_TARGET_NAME || config['10'];
-  if (name) target.name = (typeof name === 'object') ? name.value : name;
-  localStorage.setItem('clay_settings', JSON.stringify(config));
-  Pebble.sendAppMessage({ 'CONFIG_LANG': settings.lang }); 
-}
+  var dKM = calculateDistance(lastPos.lat, lastPos.lon, target.lat, target.lon);
+  var tBearing = calculateBearing(lastPos.lat, lastPos.lon, target.lat, target.lon);
+  var distValue = (settings.unit === 1) ? (dKM * 0.621371) : dKM;
 
-Pebble.addEventListener('ready', function(e) {
-  var savedSettings = localStorage.getItem('clay_settings');
-  if (savedSettings) updateSettings(JSON.parse(savedSettings));
-  var cachedTarget = localStorage.getItem('cached_target');
-  if (cachedTarget) {
-    var parsed = JSON.parse(cachedTarget);
-    target.lat = parsed.lat; target.lon = parsed.lon; target.name = parsed.name;
+  var msg = {
+    'ID_BEARING': Math.round(tBearing),
+    'ID_GPS_HEADING': Math.round(lastPos.speed > 0.8 ? lastPos.heading : -1),
+    'ID_ACCURACY': Math.round(lastPos.accuracy || 0)
+  };
+
+  if (dKM < 0.05) { 
+    msg.ID_DIST = "GOAL!";
+    if (!arrivedVibrated) { msg.ID_VIBE = 1; arrivedVibrated = true; }
+  } else {
+    msg.ID_DIST = target.name + "\n" + distValue.toFixed(2) + (settings.unit === 1 ? " mi" : " km");
+    arrivedVibrated = false; 
   }
-  
-  // Sofort GPS triggern beim App-Start
-  startGpsWatcher(); 
-  Pebble.sendAppMessage({ 'id_dist': getTxt('pause') + "\n" + target.name });
+  Pebble.sendAppMessage(msg);
+}
+
+Pebble.addEventListener('ready', function() {
+  var cached = localStorage.getItem('cached_target'); if (cached) target = JSON.parse(cached);
+  var saved = localStorage.getItem('clay_settings');
+  if (saved) {
+    var c = JSON.parse(saved);
+    settings.unit = parseInt(c.CONFIG_UNIT.value || c.CONFIG_UNIT || 0);
+    target.name = String(c.CONFIG_TARGET_NAME.value || c.CONFIG_TARGET_NAME || "Target");
+  }
+  navigator.geolocation.watchPosition(function(pos) {
+    if (pos.coords.latitude !== 0) {
+      lastPos = { lat: pos.coords.latitude, lon: pos.coords.longitude, heading: pos.coords.heading, speed: pos.coords.speed, accuracy: pos.coords.accuracy };
+      updateWatch();
+    }
+  }, null, { enableHighAccuracy: true });
+});
+
+Pebble.addEventListener('appmessage', function(e) {
+  if (e.payload.ID_BUTTON === 1) { isPaused = !isPaused; updateWatch(isPaused ? "PAUSED" : "GPS RESUME"); }
+  if (e.payload.ID_BUTTON === 2 && lastPos) {
+    target = { lat: lastPos.lat, lon: lastPos.lon, name: "Pinned Pos" };
+    localStorage.setItem('cached_target', JSON.stringify(target));
+    isPaused = false; arrivedVibrated = false; updateWatch("PIN SET!");
+  }
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
   if (e && e.response && e.response !== 'CANCELLED') {
     var config = JSON.parse(decodeURIComponent(e.response));
-    updateSettings(config);
-    var addr = config.CONFIG_ADDRESS || config['11'];
-    var addrString = (typeof addr === 'object') ? addr.value : addr;
-    if (addrString && addrString.length > 2) {
-      Pebble.sendAppMessage({ 'id_dist': getTxt('search') });
-      resolveAddress(addrString, target.name);
-    }
-  }
-});
-
-Pebble.addEventListener('appmessage', function(e) {
-  if (e.payload.id_button === 1) { 
-    manualPause = !manualPause; 
-    if (!manualPause) startGpsWatcher();
-    Pebble.sendAppMessage({ 'id_dist': (manualPause ? getTxt('pause') : getTxt('gps')) });
-  } 
-  else if (e.payload.id_button === 2) { 
-    if (lastPos) {
-      target.lat = lastPos.lat; target.lon = lastPos.lon;
-      target.name = (settings.lang === 1) ? "Saved Pin" : "Gesetzter Pin";
-      localStorage.setItem('cached_target', JSON.stringify(target));
-      Pebble.sendAppMessage({ 'id_dist': getTxt('pin') });
-      manualPause = false; startGpsWatcher();
+    localStorage.setItem('clay_settings', JSON.stringify(config));
+    settings.unit = parseInt(config.CONFIG_UNIT.value !== undefined ? config.CONFIG_UNIT.value : config.CONFIG_UNIT);
+    target.name = String(config.CONFIG_TARGET_NAME.value !== undefined ? config.CONFIG_TARGET_NAME.value : config.CONFIG_TARGET_NAME);
+    var addr = config.CONFIG_ADDRESS.value !== undefined ? config.CONFIG_ADDRESS.value : config.CONFIG_ADDRESS;
+    if (addr) { 
+      var url = "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(addr) + "&format=json&limit=1";
+      var req = new XMLHttpRequest(); req.open('GET', url, true);
+      req.setRequestHeader('User-Agent', 'PureNavi-v2');
+      req.onload = function() {
+        if (req.status === 200) {
+          var json = JSON.parse(req.responseText);
+          if (json && json.length > 0) {
+            target.lat = parseFloat(json[0].lat); target.lon = parseFloat(json[0].lon);
+            localStorage.setItem('cached_target', JSON.stringify(target));
+            isPaused = false; arrivedVibrated = false; updateWatch("TARGET SET:\n" + target.name);
+          } else { updateWatch("NOT FOUND"); }
+        }
+      };
+      req.send(null);
     }
   }
 });

@@ -1,29 +1,25 @@
 {
-  "name": "navi_new",
-  "author": "atomlabor.de",
-  "version": "1.1.0",
-  "private": true,
-  "dependencies": {
-    "pebble-clay": "^1.0.3"
-  },
+  "name": "PureNavi",
+  "version": "2.0.0",
+  "author": "Atomlabor",
+  "type": "package",
   "pebble": {
-    "displayName": "PureNavi",
-    "uuid": "2aec2ede-ac92-4ad5-a80f-fd71e07bd5af",
+    "displayName": "PureNavi v3",
+    "uuid": "1337beef-dead-4444-beef-133713371337",
     "sdkVersion": "3",
     "enableMultiJS": true,
-    "targetPlatforms": ["aplite", "basalt", "chalk", "diorite"],
-    "watchapp": { "watchface": false },
+    "targetPlatforms": ["aplite", "basalt", "chalk", "diorite", "emery"],
     "capabilities": ["location", "configurable"],
     "messageKeys": {
-      "id_dist": 0,
-      "id_button": 3,
-      "id_vibe": 4,
-      "id_bearing": 5,
+      "ID_DIST": 0,
+      "ID_BUTTON": 3,
+      "ID_BEARING": 5,
+      "ID_GPS_HEADING": 6,
+      "ID_VIBE": 7,
       "CONFIG_TARGET_NAME": 10,
       "CONFIG_ADDRESS": 11,
-      "CONFIG_UNIT": 12,
-      "CONFIG_LANG": 13
-    },
+      "CONFIG_UNIT": 12
+      },
     "resources": {
       "media": [
         {
@@ -34,5 +30,8 @@
         }
       ]
     }
+  },
+  "dependencies": {
+    "pebble-clay": "^1.0.3"
   }
 }
