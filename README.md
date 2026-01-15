@@ -1,77 +1,67 @@
 # 🧭 PureNavi for Pebble (v2)
 
-![PureNavi Header](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/main/purenavi.jpeg)
+![PureNavi Header](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/main/header.jpeg)
 
+[![Pebble SDK](https://img.shields.io/badge/Pebble_SDK-4.0-orange.svg)](https://developer.rebble.io/)
+[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-green.svg)]()
 
-![PureNavi Interface Preview 1](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi1.png)
+**PureNavi v2.0.0 (Golden Build)** is a minimalist, high-efficiency directional compass for the entire Pebble family. Instead of distracting you with complex maps, PureNavi delivers the purest form of navigation: an arrow and the distance to your target.
 
-![PureNavi Interface Preview 1](https://raw.githubusercontent.com/atomlabor/purenavi-pebble/refs/heads/main/purenavi2.png)
-
-
-**PureNavi** ist ein minimalistischer, hocheffizienter Luftlinien-Kompass für die gesamte Pebble-Familie. Anstatt dich mit komplexen Karten abzulenken, liefert PureNavi die purste Form der Navigation: Einen Pfeil und die Distanz zum Ziel.
-
-"As the crow flies"
+*"As the crow flies"*
 
 ---
 
 ## 🇩🇪 Deutsch
 
-### 🚀 Kern-Features
-* **📍 Universal Geocoding:** Keine mühsame Koordinaten-Eingabe. Gib einfach eine Adresse oder einen Ort (z. B. "Alexanderplatz, Berlin") in den Einstellungen ein.
-* **🌍 Bilingual & International:** Volle Unterstützung für **Deutsch** und **Englisch** sowie Umschaltung zwischen **Metrisch (km)** und **Imperial (mi)**.
-* **🎨 Intelligentes UI-Design:**
-    * **Sidebar:** Eine elegante Seitenleiste trennt die Bedienelemente visuell ab.
-    * **Invert-Mode:** Per Knopfdruck die Anzeige invertieren – ideal für starke Sonne oder Nacht.
-    * **GPS-Watchdog:** Ein visueller Indikator (Kreis mit X) warnt dich sofort, wenn das Smartphone das Signal verliert.
-* **🔋 Battery First:** Nutzt hocheffiziente Bluetooth-Kommunikation und schont den Akku von Uhr und Smartphone.
+###  Kern-Features (v2.0.0)
+* ** Hybrid-Navigation:** Nutzt GPS-Heading bei Bewegung (>0,8 m/s) für höchste Genauigkeit und schaltet im Stand automatisch auf den gedämpften magnetischen Kompass um.
+* ** Universal Geocoding:** Gib einfach eine Adresse oder einen Ort (z. B. "Alexanderplatz, Berlin") in den Clay-Einstellungen ein.
+* ** Zielankunft-Feedback:** Sobald du den 50m-Umkreis erreichst, vibriert die Uhr und zeigt groß **"GOAL!"** an.
+* ** Adaptives UI-Design:**
+    * **Sidebar (Rectangular):** Eine ultrakompakte 15px-Leiste mit Trennlinien für Emery/Basalt/Diorite.
+    * **Full-Screen (Round):** Die Sidebar wird auf der Pebble Chalk/Round 2 automatisch ausgeblendet, um das runde Display voll zu nutzen.
+    * **Standard Dark-Mode:** Die App startet direkt im batterieschonenden Invert-Modus.
+
 
 ### 🛠 Bedienung (Buttons)
-* **OBEN (S):** Tracking Start / Stopp.
-* **MITTE (I):** Display invertieren (Farben wechseln).
-* **UNTEN (P):** Pin der aktuellen Position setzen (z.B. Auto wiederfinden).
-
-### 🔧 Setup & Installation
-1. Installiere die `.pbw` Datei über die Pebble/Rebble App.
-2. Öffne die App-Einstellungen (Clay) auf deinem Smartphone.
-3. Wähle Sprache und Einheit.
-4. Gib deine Zieladresse ein und speichere.
-5. **Wichtig:** Der Pfeil zeigt die direkte **Luftlinie**.
-6. **Tipp:** Falls kein GPS-Fix kommt, öffne kurz Google Maps am Handy, um die Standortdienste zu triggern.
+* **OBEN (S):** Tracking Start / Pause (Standby).
+* **MITTE (I):** Display manuell invertieren (Hell/Dunkel).
+* **UNTEN (P):** **Instant-Pin:** Setzt deine aktuelle Position sofort als neues Ziel (ideal, um das Auto oder den Startpunkt wiederzufinden).
 
 ---
 
 ## 🇺🇸 English
 
-"As the crow flies"
+###  Key Features (v2.0.0)
+* ** Hybrid Logic:** Uses GPS heading during movement (>0.8 m/s) for rock-solid precision and automatically switches to the damped magnetic compass when stationary.
+* ** Universal Geocoding:** No coordinates needed. Simply enter an address or POI (e.g., "Empire State Building") in the smartphone settings.
+* ** Arrival Alert:** Vibrates and displays **"GOAL!"** as soon as you are within 50 meters of your destination.
+* ** Adaptive UI Design:**
+    * **Narrow Sidebar:** Ultra-slim 15px sidebar with separators for rectangular Pebbles.
+    * **Round Optimization:** The sidebar is automatically hidden on Pebble Chalk/Round 2 to maximize the circular screen area.
+    * **Default Dark Mode:** Starts inverted (white on black) by default for better visibility and battery life.
 
 
-### 🚀 Key Features
-* **📍 Universal Geocoding:** No need for coordinates. Just enter an address or POI (e.g., "Empire State Building") in the settings.
-* **🌍 Bilingual & International:** Full support for **English** and **German**. Toggle between **Metric (km)** and **Imperial (mi)**.
-* **🎨 Smart UI Design:**
-    * **Sidebar:** An elegant vertical bar separates the controls from the navigation area.
-    * **Invert Mode:** Toggle display colors with one click – perfect for high sun or night hikes.
-    * **GPS Watchdog:** A visual indicator (circle with X) warns you instantly if the smartphone loses the GPS signal.
-* **🔋 Battery First:** Uses high-efficiency Bluetooth communication to save battery on both watch and phone.
-
-### 🛠 Button Controls
-* **UP (S):** Start / Stop tracking.
+### Button Controls
+* **UP (S):** Start / Pause GPS tracking.
 * **SELECT (I):** Invert display (Toggle Black/White).
-*  **BELOW (P):** Set pin for current location (e.g. to find your car).
+* **DOWN (P):** **Instant-Pin:** Immediately sets your current location as the target. Perfect for finding your car or hotel.
 
-### 📖 Why "As the crow flies"?
-Real adventures often happen off the beaten path. PureNavi gives you the freedom to find your own way through the city or woods, as long as you know the direction of your target. It’s the digital equivalent of a reliable pocket compass combined with modern geocoding technology.
-
-
-
-### 🔧 Setup & Installation
+### Setup & Installation
 1. Install the `.pbw` file via the Pebble/Rebble app.
 2. Open the app settings (Clay) on your smartphone.
-3. Choose your language and unit.
-4. Enter your destination address and save.
-5. **Note:** The arrow shows the **direct line (as the crow flies)**.
-6. **Tip:** If you don't get a GPS fix, open Google Maps on your phone for a moment to "wake up" the location services.
+3. Enter your destination address and save.
+4. **Onboarding:** If the screen is empty, follow the watch hint: Set a target or press **P** to pin your current location.
+5. **Tip:** If you don't get a GPS fix, open Google Maps on your phone for a moment to trigger location services.
+
+---
+
+## Technical Details
+* **SDK:** Built with Pebble SDK 4.0.
+* **Platforms:** Supported on Aplite, Basalt, Chalk, Diorite, Emery and Flint.
+* **Geocoding:** Powered by Nominatim (OpenStreetMap).
+* **Filter:** Low-pass filtering and hysteresis for smooth arrow movement and stable text instructions.
 
 ---
 Produced by [Atomlabor.de](https://atomlabor.de)
-
